@@ -1,5 +1,5 @@
 .form {
-  margin-top: var(--pad-xxl);
+  margin-top: var(--pad-lg);
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -6,6 +6,8 @@ import { colorRange } from "@heyeso/color-range";
 import React, { useEffect } from "react";
 import { FaChevronLeft, FaRegTrashAlt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import AutosizeInput from "react-input-autosize";
+import ListItem from "./listitem";
 
 export type ListItem = UserListItem & {
   onClick?: () => void;
@@ -84,68 +86,20 @@ export default function List({
           </li>
         )}
         {items.map((item, index) => (
-          <li
+          <ListItem
             key={index + item.text}
-            style={{
-              backgroundColor: map.getColor(index + (adding ? 1 : 0)).toHex,
-              position: "relative",
-              overflow: "hidden",
-              height: 56,
-              display: "flex",
-              alignItems: "center",
-            }}
-            className={
-              styles.item +
-              (item.onClick !== undefined ? ` ${styles.clickable}` : "")
-            }
-            onClick={item.onClick}
-          >
-            <input
-              type="text"
-              className={
-                styles.input +
-                (item.onClick !== undefined &&
-                (!editable || item.editable === false)
-                  ? ` ${styles.clickable}`
-                  : "")
+            item={item}
+            index={index}
+            editable={editable}
+            onRename={onRename}
+            onDelete={() => {
+              if (onDelete) {
+                onDelete(index);
               }
-              defaultValue={item.text}
-              readOnly={!editable || item.editable === false}
-              onBlur={(e) => {
-                if (
-                  editable &&
-                  item.editable !== false &&
-                  onRename &&
-                  e.target.value !== item.text
-                ) {
-                  onRename(index, e.target.value);
-                }
-              }}
-              onClick={(e) => {
-                if (editable && item.editable !== false) {
-                  e.stopPropagation();
-                  return;
-                }
-                if (!editable || item.editable === false) {
-                  e.preventDefault();
-                  item.onClick?.();
-                }
-              }}
-              style={{ flex: 1 }}
-            />
-            {onDelete && editable && item.editable !== false && (
-              <button
-                aria-label="Delete"
-                className={styles.button}
-                style={{
-                  color: "var(--danger)",
-                }}
-                onClick={() => onDelete(index)}
-              >
-                <FaRegTrashAlt size={16} />
-              </button>
-            )}
-          </li>
+            }}
+            adding={adding}
+            map={map}
+          />
         ))}
       </ul>
       {onCreate && (

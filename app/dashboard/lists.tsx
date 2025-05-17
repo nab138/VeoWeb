@@ -30,7 +30,6 @@ export default function Lists({
       const updated = [...userLists];
       updated[index] = { ...updated[index], name: newName };
       setUserLists(updated);
-      toast.success("List renamed!");
     }
   };
 
@@ -59,7 +58,6 @@ export default function Lists({
       toast.error("Failed to delete list: " + error.message);
     } else {
       setUserLists((prev) => prev.filter((_, i) => i !== index));
-      toast.success("List deleted!");
     }
   };
 

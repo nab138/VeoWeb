@@ -21,16 +21,6 @@
   padding: var(--pad-md);
 }
 
-.input {
-  background-color: transparent;
-  border: none;
-  color: var(--foreground);
-  font-size: large;
-  font-weight: 700;
-  outline: none;
-  width: fit-content;
-}
-
 .clickable {
   cursor: pointer;
 }

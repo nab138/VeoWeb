@@ -49,7 +49,10 @@ export default function LoginClient() {
     <div className="centered-container">
       <main className={styles.main}>
         <Card>
-          <h1>{signUp ? "Sign Up" : "Login"}</h1>
+          <h1>Welcome to Veo</h1>
+          <p>Best lists app ever.</p>
+          <hr style={{ margin: "var(--pad-sm) 0" }} />
+          <h2>{signUp ? "Sign Up" : "Login"}</h2>
           <form className={styles.form} onSubmit={handleSubmit}>
             <Input
               type="email"
