@@ -10,7 +10,7 @@ export function SignOutButton() {
     if (error) {
       console.error("Sign out error:", error);
     } else {
-      redirect("/login");
+      redirect("/");
     }
   };
 

@@ -2,13 +2,14 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import {} from "./SignOutButton";
 import styles from "./dashboard.module.css";
-import Lists from "./Lists";
+import Lists from "./lists";
+import { UserList } from "@/utils/types";
 
 export default async function Dashboard() {
   const supabase = await createClient();
   const { data: userData, error: userError } = await supabase.auth.getUser();
   if (userError || !userData?.user) {
-    redirect("/login");
+    redirect("/");
   }
 
   const { data: listsData, error: listsError } = await supabase
@@ -26,7 +27,14 @@ export default async function Dashboard() {
 
   return (
     <main className={styles.main}>
-      <Lists lists={listsData} />
+      <Lists
+        lists={(listsData as UserList[]).sort((a, b) => {
+          return (
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          );
+        })}
+        userId={userData.user.id}
+      />
     </main>
   );
 }

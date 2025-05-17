@@ -4,8 +4,10 @@
 
 .header {
   background-color: var(--primary);
-
   padding: var(--pad-md);
+  display: flex;
+  gap: var(--pad-md);
+  align-items: center;
 }
 
 .container {
@@ -26,8 +28,28 @@
   font-size: large;
   font-weight: 700;
   outline: none;
+  width: fit-content;
 }
 
 .clickable {
   cursor: pointer;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  font-size: larger;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backButton {
+  background-color: transparent;
+  border: none;
+  font-size: larger;
+  display: flex;
+  justify-content: center;
+  padding: none;
+  color: var(--foreground);
 }

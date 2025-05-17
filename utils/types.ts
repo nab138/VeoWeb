@@ -3,6 +3,7 @@ export type UserList = {
   user_id: string;
   name: string;
   items: UserListItem[];
+  created_at: string;
 };
 
 export type UserListItem = {

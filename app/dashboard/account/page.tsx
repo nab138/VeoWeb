@@ -10,7 +10,7 @@ export default async function Account() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    redirect("/login");
+    redirect("/");
   }
   return (
     <main className={styles.main}>

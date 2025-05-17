@@ -1,21 +1,14 @@
-import Link from "next/link";
-import styles from "./page.module.css";
-import { Button } from "@/ui/button";
+"use server";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+import LoginClient from "./LoginClient";
 
-export default function Landing() {
-  return (
-    <div className="centered-container">
-      <main className={styles.main}>
-        <h1>Veo</h1>
-        <p>Super epic lists.</p>
-        <div className={styles.actions}>
-          <Link href="/dashboard" passHref>
-            <Button variant="primary" size="large">
-              Get Started
-            </Button>
-          </Link>
-        </div>
-      </main>
-    </div>
-  );
+export default async function LoginPage() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (!error && data?.user) {
+    redirect("/dashboard");
+  }
+
+  return <LoginClient />;
 }
