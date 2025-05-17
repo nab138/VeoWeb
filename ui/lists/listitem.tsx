@@ -1,27 +1,30 @@
 import { colorRange } from "@heyeso/color-range";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaCheck, FaRegTrashAlt } from "react-icons/fa";
 import styles from "./item.module.css";
 import { useState, useEffect, useRef } from "react";
+import type { ListItem } from "./list";
 
 export default function ListItem({
   item,
   index,
+  visualIndex = index,
   editable = true,
+  canComplete = false,
   onRename,
   onDelete,
+  onComplete,
   adding = false,
   map = colorRange(["#0072ce", "#00b6a0"], [0, 1]),
   onEnter,
 }: {
-  item: {
-    text: string;
-    onClick?: () => void;
-    editable?: boolean;
-  };
+  item: ListItem;
   index: number;
+  visualIndex?: number;
   editable?: boolean;
   onRename?: (index: number, newName: string) => void;
   onDelete?: (index: number) => void;
+  onComplete?: (index: number, complete: boolean) => void;
+  canComplete?: boolean;
   adding?: boolean;
   onEnter?: () => void;
   map?: ReturnType<typeof colorRange>;
@@ -60,10 +63,12 @@ export default function ListItem({
     <li
       key={index + item.text}
       style={{
-        backgroundColor: map.getColor(index + (adding ? 1 : 0)).toHex,
+        backgroundColor: map.getColor(visualIndex + (adding ? 1 : 0)).toHex,
       }}
       className={
-        styles.item + (item.onClick !== undefined ? ` ${styles.clickable}` : "")
+        styles.item +
+        (item.onClick !== undefined ? ` ${styles.clickable}` : "") +
+        (item.done ? ` ${styles.done}` : "")
       }
       onClick={item.onClick}
     >
@@ -151,18 +156,32 @@ export default function ListItem({
           }
         }}
       />
-      {onDelete && editable && item.editable !== false && (
-        <button
-          aria-label="Delete"
-          className={styles.button}
-          style={{
-            color: "var(--danger)",
-          }}
-          onClick={() => onDelete(index)}
-        >
-          <FaRegTrashAlt size={16} />
-        </button>
-      )}
+      <div className={styles.buttons}>
+        {onDelete && editable && item.editable !== false && (
+          <button
+            aria-label="Delete"
+            className={styles.button}
+            style={{
+              color: "var(--danger)",
+            }}
+            onClick={() => onDelete(index)}
+          >
+            <FaRegTrashAlt size={16} />
+          </button>
+        )}
+        {canComplete && onComplete && (
+          <button
+            aria-label="Complete"
+            className={styles.button}
+            style={{
+              color: "var(--foreground)",
+            }}
+            onClick={() => onComplete(index, !item.done)}
+          >
+            <FaCheck />
+          </button>
+        )}
+      </div>
     </li>
   );
 }

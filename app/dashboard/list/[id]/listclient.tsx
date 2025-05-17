@@ -17,7 +17,7 @@ export default function ListClient({ list }: { list: UserList }) {
       let newItem = { text: name, done: false } as UserListItem;
       const { error } = await supabase
         .from("lists")
-        .update([{ items: items.concat(newItem) }])
+        .update([{ items: [newItem].concat(items) }])
         .eq("id", list.id);
       if (error) {
         toast.error("Failed to create list: " + error.message);
@@ -65,9 +65,30 @@ export default function ListClient({ list }: { list: UserList }) {
     },
     [items]
   );
+
+  const handleComplete = useCallback(
+    async (index: number, done: boolean) => {
+      if (!items[index]) return;
+
+      const supabase = createClient();
+      const updatedItems = [...items];
+      updatedItems[index] = { ...updatedItems[index], done };
+      const { error } = await supabase
+        .from("lists")
+        .update([{ items: updatedItems }])
+        .eq("id", list.id);
+      if (error) {
+        toast.error("Failed to update item: " + error.message);
+      } else {
+        setItems(updatedItems);
+      }
+    },
+    [items]
+  );
   return (
     <main className={styles.main}>
       <List
+        canComplete
         canGoBack
         editable
         title={list.name}
@@ -75,6 +96,7 @@ export default function ListClient({ list }: { list: UserList }) {
         onCreate={handleCreate}
         onDelete={handleDelete}
         onRename={handleRename}
+        onComplete={handleComplete}
       />
     </main>
   );

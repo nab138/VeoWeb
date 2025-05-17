@@ -20,19 +20,23 @@ export default function List({
   title,
   editable,
   canGoBack,
+  canComplete = false,
   items,
   onRename,
   onCreate,
   onDelete,
+  onComplete,
   ...props
 }: {
   title: string;
   canGoBack?: boolean;
   items: ListItem[];
   editable?: boolean;
+  canComplete?: boolean;
   onRename?: (index: number, newName: string) => void;
   onCreate?: (name: string) => void;
   onDelete?: (index: number) => void;
+  onComplete?: (index: number, completed: boolean) => void;
 } & React.HTMLAttributes<HTMLUListElement>) {
   const [adding, setAdding] = React.useState(false);
   const [newListName, setNewListName] = React.useState("");
@@ -46,7 +50,10 @@ export default function List({
 
   const router = useRouter();
 
-  let map = colorRange(colors, [0, items.length + (adding ? 1 : 0) - 1]);
+  let map = colorRange(colors, [
+    0,
+    items.filter((e) => !e.done).length + (adding ? 1 : 0) - 1,
+  ]);
   return (
     <div className={styles.container} style={{ position: "relative" }}>
       <div className={styles.header}>
@@ -97,29 +104,61 @@ export default function List({
             />
           </li>
         )}
-        {items.map((item, index) => (
-          <ListItem
-            key={index + item.text}
-            item={item}
-            index={index}
-            editable={editable}
-            onRename={onRename}
-            onDelete={() => {
-              if (onDelete) {
-                onDelete(index);
-              }
-            }}
-            onEnter={() => {
-              if (!adding) {
-                setAdding(true);
-                setNewListName("");
-              }
-            }}
-            adding={adding}
-            map={map}
-          />
-        ))}
+        {items
+          .filter((i) => !i.done)
+          .map((item, index) => (
+            <ListItem
+              key={index + item.text}
+              item={item}
+              index={items.indexOf(item)}
+              visualIndex={index}
+              editable={editable}
+              onRename={onRename}
+              canComplete={canComplete}
+              onComplete={onComplete}
+              onDelete={() => {
+                if (onDelete) {
+                  onDelete(index);
+                }
+              }}
+              onEnter={() => {
+                if (!adding) {
+                  setAdding(true);
+                  setNewListName("");
+                }
+              }}
+              adding={adding}
+              map={map}
+            />
+          ))}
+        {items
+          .filter((i) => i.done)
+          .map((item, index) => (
+            <ListItem
+              key={index + item.text + "done"}
+              item={item}
+              index={items.indexOf(item)}
+              editable={editable}
+              onRename={onRename}
+              canComplete={canComplete}
+              onComplete={onComplete}
+              onDelete={() => {
+                if (onDelete) {
+                  onDelete(index);
+                }
+              }}
+              onEnter={() => {
+                if (!adding) {
+                  setAdding(true);
+                  setNewListName("");
+                }
+              }}
+              adding={adding}
+              map={map}
+            />
+          ))}
       </ul>
+
       {onCreate && (
         <button
           aria-label="Add List"
