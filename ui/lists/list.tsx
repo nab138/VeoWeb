@@ -80,6 +80,18 @@ export default function List({
                 setAdding(false);
                 setNewListName("");
               }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  const name = newListName.trim();
+                  if (name && onCreate) {
+                    onCreate(name);
+                  }
+                  setNewListName("");
+                } else if (e.key === "Escape") {
+                  setAdding(false);
+                  setNewListName("");
+                }
+              }}
               placeholder="New list name"
               style={{ fontWeight: "bold" }}
             />
@@ -95,6 +107,12 @@ export default function List({
             onDelete={() => {
               if (onDelete) {
                 onDelete(index);
+              }
+            }}
+            onEnter={() => {
+              if (!adding) {
+                setAdding(true);
+                setNewListName("");
               }
             }}
             adding={adding}

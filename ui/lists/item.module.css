@@ -1,0 +1,21 @@
+.item {
+  padding: var(--pad-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  font-size: larger;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,5 +1,6 @@
 .list {
   list-style-type: none;
+  max-width: 100%;
 }
 
 .header {
@@ -13,12 +14,8 @@
 .container {
   margin: 0;
   flex-grow: 1;
-
+  max-width: 100%;
   background-color: var(--secondary);
-}
-
-.item {
-  padding: var(--pad-md);
 }
 
 .clickable {
@@ -42,4 +39,22 @@
   justify-content: center;
   padding: none;
   color: var(--foreground);
+}
+
+.input {
+  background-color: transparent;
+  border: none;
+  color: var(--foreground);
+  font-size: 1.2em;
+  font-weight: 600;
+  outline: none;
+}
+
+.item {
+  padding: var(--pad-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
 }
