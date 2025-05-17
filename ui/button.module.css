@@ -1,5 +1,5 @@
 .button {
-  border: none;
+  border: 1px solid var(--background);
   color: white;
   text-align: center;
   display: inline-block;

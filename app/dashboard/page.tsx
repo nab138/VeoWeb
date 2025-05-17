@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { SignOutButton } from "./SignOutButton";
+import styles from "./dashboard.module.css";
+import { Card } from "@/ui/card";
+import Lists from "./Lists";
 
 export default async function Dashboard() {
   const supabase = await createClient();
@@ -10,12 +13,18 @@ export default async function Dashboard() {
   }
 
   return (
-    <div className="centered-container">
-      <main>
-        <h1>Dashboard</h1>
-        <p>Welcome, {data.user.email}!</p>
+    <main className={styles.main}>
+      <Card>
+        <h1>My Lists</h1>
+        <Lists user={data.user} />
+      </Card>
+      <Card className={styles.accountCard}>
+        <h2>Account</h2>
+        <p>Email: {data.user.email}</p>
+        <p>UID: {data.user.id}</p>
+        <p>Created at: {new Date(data.user.created_at).toLocaleString()}</p>
         <SignOutButton />
-      </main>
-    </div>
+      </Card>
+    </main>
   );
 }

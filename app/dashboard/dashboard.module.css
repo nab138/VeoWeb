@@ -1,0 +1,11 @@
+.main {
+  padding: var(--pad-xxl);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--pad-lg);
+}
+
+.accountCard button {
+  margin-top: var(--pad-lg);
+}
