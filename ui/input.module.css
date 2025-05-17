@@ -1,0 +1,17 @@
+/* Basic input styles to match your button component */
+.input {
+  border: none;
+  border-radius: var(--radius);
+  padding: var(--pad-md) var(--pad-lg);
+  font-size: small;
+  outline: none;
+  background: var(--background-2);
+
+  color: var(--foreground);
+}
+
+.input:disabled {
+  background: #f5f5f5;
+  color: #aaa;
+  cursor: not-allowed;
+}

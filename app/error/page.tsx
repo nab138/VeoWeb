@@ -1,17 +1,18 @@
+"use client";
 import Link from "next/link";
-import styles from "./page.module.css";
+import styles from "../page.module.css";
 import { Button } from "@/ui/button";
 
-export default function Landing() {
+export default function Error() {
   return (
     <div className="centered-container">
       <main className={styles.main}>
-        <h1>Veo</h1>
-        <p>Super epic lists.</p>
+        <h1>Error</h1>
+        <p>Sorry, something went wrong</p>
         <div className={styles.actions}>
-          <Link href="/dashboard" passHref>
+          <Link href="/" passHref>
             <Button variant="primary" size="large">
-              Get Started
+              Take me home (country roads)
             </Button>
           </Link>
         </div>

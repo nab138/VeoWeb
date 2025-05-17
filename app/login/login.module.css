@@ -1,0 +1,17 @@
+.form {
+  margin-top: var(--pad-xxl);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: var(--pad-md);
+}
+
+.toggle {
+  text-decoration: underline;
+  color: var(--neutral);
+  margin-top: var(--pad-xl);
+  font-size: medium;
+  cursor: pointer;
+}

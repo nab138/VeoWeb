@@ -2,16 +2,16 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { Button } from "@/ui/button";
 
-export default function Landing() {
+export default function NotFound() {
   return (
     <div className="centered-container">
       <main className={styles.main}>
-        <h1>Veo</h1>
-        <p>Super epic lists.</p>
+        <h1>404 - Not Found</h1>
+        <p>The page you've requested does not exist.</p>
         <div className={styles.actions}>
-          <Link href="/dashboard" passHref>
+          <Link href="/" passHref>
             <Button variant="primary" size="large">
-              Get Started
+              Take me home (country roads)
             </Button>
           </Link>
         </div>

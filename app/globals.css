@@ -1,25 +1,33 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground: #ffffff;
+  --background: #274259;
+  --background-2: #2d3a46;
+  --primary: #0072ce;
+  --secondary: #00b894;
+  --danger: #d63031;
+  --neutral: #b9c0c4;
+  --radius: 0.4rem;
+  --pad-sm: 0.5rem;
+  --pad-md: 0.75rem;
+  --pad-lg: 1rem;
+  --pad-xl: 1.5rem;
+  --pad-xxl: 2rem;
 }
 
 html,
 body {
   max-width: 100vw;
+  height: 100%;
   overflow-x: hidden;
 }
 
 body {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: var(--font-lexend-deca), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -39,4 +47,19 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+.centered-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centered-container > main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 8rem;
 }

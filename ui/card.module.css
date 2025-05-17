@@ -1,0 +1,12 @@
+/* Basic card styles to match your button and input components */
+.card {
+  background: var(--background);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: var(--pad-xxl);
+  transition: box-shadow 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
