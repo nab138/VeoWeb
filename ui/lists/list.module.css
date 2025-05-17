@@ -1,0 +1,33 @@
+.list {
+  list-style-type: none;
+}
+
+.header {
+  background-color: var(--primary);
+
+  padding: var(--pad-md);
+}
+
+.container {
+  margin: 0;
+  flex-grow: 1;
+
+  background-color: var(--secondary);
+}
+
+.item {
+  padding: var(--pad-md);
+}
+
+.input {
+  background-color: transparent;
+  border: none;
+  color: var(--foreground);
+  font-size: large;
+  font-weight: 700;
+  outline: none;
+}
+
+.clickable {
+  cursor: pointer;
+}

@@ -1,0 +1,9 @@
+.main {
+  padding: var(--pad-xxl);
+}
+
+.actions {
+  margin-top: var(--pad-md);
+  display: flex;
+  gap: var(--pad-md);
+}

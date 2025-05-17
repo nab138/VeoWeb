@@ -1,11 +1,12 @@
 .main {
-  padding: var(--pad-xxl);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--pad-lg);
+  height: 100%;
 }
 
 .accountCard button {
   margin-top: var(--pad-lg);
+}
+
+.card {
+  background: var(--bg-gradient) !important;
 }

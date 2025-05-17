@@ -6,6 +6,7 @@
   --secondary: #00b894;
   --danger: #d63031;
   --neutral: #b9c0c4;
+  --bg-gradient: linear-gradient(0deg, var(--primary), var(--secondary));
   --radius: 0.4rem;
   --pad-sm: 0.5rem;
   --pad-md: 0.75rem;

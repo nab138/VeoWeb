@@ -1,30 +1,31 @@
-import ListItemCard from "@/ui/ListItemCard";
-import { createClient } from "@/utils/supabase/server";
-import { toast } from "sonner";
+"use client";
 
-export default async function Lists({ user }: { user: { id: string } }) {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("lists")
-    .select("*")
-    .eq("user_id", user.id);
-  if (error) {
-    toast.error("Failed to fetch lists");
-    return (
-      <div>
-        <h2>Failed to fetch :(</h2>
-        <p>{error.message}</p>
-      </div>
-    );
-  }
+import List, { ListItem } from "@/ui/lists/list";
+import { UserList } from "@/utils/types";
+import { useRouter } from "next/navigation";
 
-  console.log("Fetched lists:", data);
+export default function Lists({ lists }: { lists: UserList[] }) {
+  const router = useRouter();
   return (
-    <ul>
-      {data.map((list) => (
-        <ListItemCard key={list.id}>{list.name}</ListItemCard>
-      ))}
-      <ListItemCard>+ Create New</ListItemCard>
-    </ul>
+    <List
+      editable
+      title="My Lists"
+      items={lists
+        .map(
+          (item) =>
+            ({
+              text: item.name,
+            } as ListItem)
+        )
+        .concat([
+          {
+            text: "Account Settings",
+            onClick: () => {
+              router.push("/dashboard/account");
+            },
+            editable: false,
+          },
+        ])}
+    />
   );
 }

@@ -4,6 +4,7 @@
     "": {
       "name": "veoweb",
       "dependencies": {
+        "@heyeso/color-range": "^3.0.1",
         "@supabase/ssr": "^0.6.1",
         "@supabase/supabase-js": "^2.49.4",
         "next": "15.3.2",
@@ -21,6 +22,8 @@
   },
   "packages": {
     "@emnapi/runtime": ["@emnapi/runtime@1.4.3", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-pBPWdu6MLKROBX05wSNKcNb++m5Er+KQ9QkB+WVM+pW2Kx9hoSrVTnu3BdkI5eBLZoKu/J6mW/B6i6bJB2ytXQ=="],
+
+    "@heyeso/color-range": ["@heyeso/color-range@3.0.1", "", {}, "sha512-ltVXbLglqMEGygxX9GqKEXiEMknyatp548m4PfV+ijbyW+UXiVaCCbHZKvBwcAb13PCV2BGeQQU2Jgi5eL4MAg=="],
 
     "@img/sharp-darwin-arm64": ["@img/sharp-darwin-arm64@0.34.1", "", { "optionalDependencies": { "@img/sharp-libvips-darwin-arm64": "1.1.0" }, "os": "darwin", "cpu": "arm64" }, "sha512-pn44xgBtgpEbZsu+lWf2KNb6OAf70X68k+yk69Ic2Xz11zHR/w24/U49XT7AeRwJ0Px+mhALhU5LPci1Aymk7A=="],
 
