@@ -8,5 +8,6 @@ export type UserList = {
 
 export type UserListItem = {
   text: string;
+  id: string;
   done?: boolean;
 };

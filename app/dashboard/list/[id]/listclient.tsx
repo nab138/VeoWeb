@@ -14,7 +14,11 @@ export default function ListClient({ list }: { list: UserList }) {
     async (name: string) => {
       if (!name) return;
       const supabase = createClient();
-      let newItem = { text: name, done: false } as UserListItem;
+      let newItem = {
+        text: name,
+        done: false,
+        id: crypto.randomUUID(),
+      } as UserListItem;
       const { error } = await supabase
         .from("lists")
         .update([{ items: [newItem].concat(items) }])
