@@ -7,30 +7,36 @@ import { createClient } from "@/utils/supabase/client";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
-export default function ListClient({ list }: { list: UserList }) {
-  let [items, setItems] = useState<UserListItem[]>(list.items || []);
+export default function ListClient({
+  list,
+  defaultItems,
+}: {
+  list: UserList;
+  defaultItems: UserListItem[];
+}) {
+  let [items, setItems] = useState<UserListItem[]>(defaultItems);
 
-  const handleCreate = useCallback(
-    async (name: string) => {
-      if (!name) return;
-      const supabase = createClient();
-      let newItem = {
-        text: name,
-        done: false,
-        id: crypto.randomUUID(),
-      } as UserListItem;
-      const { error } = await supabase
-        .from("lists")
-        .update([{ items: [newItem].concat(items) }])
-        .eq("id", list.id);
-      if (error) {
-        toast.error("Failed to create list: " + error.message);
-      } else {
-        setItems((prev) => [newItem, ...prev]);
-      }
-    },
-    [items]
-  );
+  const handleCreate = async (name: string) => {
+    if (!name) return;
+    const supabase = createClient();
+    let item: UserListItem = {
+      text: name,
+      id: crypto.randomUUID(),
+      user_id: list.user_id,
+      list_id: list.id,
+      done: false,
+    };
+    const { data, error } = await supabase
+      .from("items")
+      .insert([item])
+      .select()
+      .single();
+    if (error) {
+      toast.error("Failed to create item: " + error.message);
+    } else if (data) {
+      setItems((prev) => [data, ...prev]);
+    }
+  };
 
   const handleDelete = useCallback(
     async (index: number) => {
@@ -38,11 +44,12 @@ export default function ListClient({ list }: { list: UserList }) {
 
       const supabase = createClient();
       const { error } = await supabase
-        .from("lists")
-        .update([{ items: items.filter((_, i) => i !== index) }])
-        .eq("id", list.id);
+        .from("items")
+        .delete()
+        .eq("id", items[index].id)
+        .eq("list_id", list.id);
       if (error) {
-        toast.error("Failed to create list: " + error.message);
+        toast.error("Failed to delete item: " + error.message);
       } else {
         setItems((prev) => prev.filter((_, i) => i !== index));
       }
@@ -52,19 +59,22 @@ export default function ListClient({ list }: { list: UserList }) {
 
   const handleRename = useCallback(
     async (index: number, newName: string) => {
-      if (!items[index]) return;
+      if (!newName || !items[index]) return;
 
       const supabase = createClient();
-      const updatedItems = [...items];
-      updatedItems[index] = { ...updatedItems[index], text: newName };
       const { error } = await supabase
-        .from("lists")
-        .update([{ items: updatedItems }])
-        .eq("id", list.id);
+        .from("items")
+        .update({ text: newName })
+        .eq("id", items[index].id)
+        .eq("list_id", list.id);
       if (error) {
         toast.error("Failed to rename item: " + error.message);
       } else {
-        setItems(updatedItems);
+        setItems((prev) => {
+          const updated = [...prev];
+          updated[index] = { ...updated[index], text: newName };
+          return updated;
+        });
       }
     },
     [items]
@@ -75,16 +85,19 @@ export default function ListClient({ list }: { list: UserList }) {
       if (!items[index]) return;
 
       const supabase = createClient();
-      const updatedItems = [...items];
-      updatedItems[index] = { ...updatedItems[index], done };
       const { error } = await supabase
-        .from("lists")
-        .update([{ items: updatedItems }])
-        .eq("id", list.id);
+        .from("items")
+        .update({ done })
+        .eq("id", items[index].id)
+        .eq("list_id", list.id);
       if (error) {
         toast.error("Failed to update item: " + error.message);
       } else {
-        setItems(updatedItems);
+        setItems((prev) => {
+          const updated = [...prev];
+          updated[index] = { ...updated[index], done };
+          return updated;
+        });
       }
     },
     [items]

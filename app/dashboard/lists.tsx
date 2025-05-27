@@ -18,6 +18,7 @@ export default function Lists({
   const [userLists, setUserLists] = useState(lists);
 
   const handleRename = async (index: number, newName: string) => {
+    if (!newName) return;
     const list = userLists[index];
     const supabase = createClient();
     const { error } = await supabase
@@ -82,6 +83,10 @@ export default function Lists({
               router.push("/dashboard/account");
             },
             editable: false,
+            id: "account-settings",
+            list_id: "account-settings",
+            done: false,
+            user_id: userId,
           },
         ])}
       onRename={handleRename}

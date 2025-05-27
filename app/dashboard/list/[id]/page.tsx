@@ -19,7 +19,13 @@ export default async function Page({
     .from("lists")
     .select("*")
     .eq("id", id)
-    .eq("user_id", userData.user.id);
+    .eq("user_id", userData.user.id)
+    .single();
+
+  const { data: itemData, error: itemError } = await supabase
+    .from("items")
+    .select("*")
+    .eq("list_id", id);
 
   if (listError) {
     return (
@@ -29,7 +35,15 @@ export default async function Page({
       </div>
     );
   }
-  const list = listData[0] as UserList | undefined;
+  if (itemError) {
+    return (
+      <div>
+        <h2>Failed to fetch items :(</h2>
+        <p>{itemError.message}</p>
+      </div>
+    );
+  }
+  const list = listData as UserList | undefined;
   if (!list) {
     return (
       <div>
@@ -42,5 +56,5 @@ export default async function Page({
     );
   }
 
-  return <ListClient list={list} />;
+  return <ListClient list={list} defaultItems={itemData ?? []} />;
 }

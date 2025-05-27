@@ -2,12 +2,13 @@ export type UserList = {
   id: string;
   user_id: string;
   name: string;
-  items: UserListItem[];
   created_at: string;
 };
 
 export type UserListItem = {
   text: string;
   id: string;
-  done?: boolean;
+  list_id: string;
+  user_id: string;
+  done: boolean;
 };
