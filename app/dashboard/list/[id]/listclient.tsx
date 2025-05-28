@@ -25,12 +25,20 @@ export default function ListClient({
       user_id: list.user_id,
       list_id: list.id,
       done: false,
+      index: 0,
     };
+    const { error: indexError } = await supabase.rpc("increment_item_indices", {
+      list_id_param: list.id,
+    });
+    if (indexError) {
+      return toast.error("Failed to update item index: " + indexError.message);
+    }
     const { data, error } = await supabase
       .from("items")
       .insert([item])
       .select()
       .single();
+
     if (error) {
       toast.error("Failed to create item: " + error.message);
     } else if (data) {
@@ -48,6 +56,19 @@ export default function ListClient({
         .delete()
         .eq("id", items[index].id)
         .eq("list_id", list.id);
+
+      if (!error) {
+        const { error: indexError } = await supabase.rpc(
+          "decrement_item_indices",
+          {
+            list_id_param: list.id,
+            index_param: items[index].index,
+          }
+        );
+        if (indexError) {
+          toast.error("Failed to update item index: " + indexError.message);
+        }
+      }
       if (error) {
         toast.error("Failed to delete item: " + error.message);
       } else {

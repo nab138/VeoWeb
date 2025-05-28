@@ -11,4 +11,5 @@ export type UserListItem = {
   list_id: string;
   user_id: string;
   done: boolean;
+  index: number;
 };

@@ -25,6 +25,7 @@ export default async function Page({
   const { data: itemData, error: itemError } = await supabase
     .from("items")
     .select("*")
+    .order("index", { ascending: true })
     .eq("list_id", id);
 
   if (listError) {

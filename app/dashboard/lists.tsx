@@ -37,9 +37,15 @@ export default function Lists({
   const handleCreate = async (name: string) => {
     if (!name) return;
     const supabase = createClient();
+    let newList: UserList = {
+      id: crypto.randomUUID(),
+      user_id: userId,
+      name,
+      created_at: new Date().toISOString(),
+    };
     const { data, error } = await supabase
       .from("lists")
-      .insert([{ name, user_id: userId, items: [] }])
+      .insert([newList])
       .select()
       .single();
     if (error) {
@@ -87,6 +93,7 @@ export default function Lists({
             list_id: "account-settings",
             done: false,
             user_id: userId,
+            index: -1,
           },
         ])}
       onRename={handleRename}
